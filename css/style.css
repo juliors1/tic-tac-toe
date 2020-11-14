@@ -1,0 +1,120 @@
+html {
+  box-sizing: border-box;
+}
+
+/* The Universal Selector */
+*, /* All elements*/
+*::before, /* All ::before pseudo-elements */
+*::after {
+  /* All ::after pseudo-elements */
+  /* height & width will now include border & padding by default
+    but can be over-ridden as needed */
+  box-sizing: inherit;
+}
+
+/* resets font size to be 62.5% of the user preference -
+  in most browser configurations this will be 10px */
+:root {
+  font-size: 62.5%;
+  --cell-size: 100px;
+  --option-size: calc(var(--cell-size) * 0.9);
+}
+
+body {
+  /* Use a system font, if none are available use an available sans-sarif   font */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  margin: 0;
+}
+
+.board {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(3, auto);
+  justify-items: center;
+  align-items: center;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  position: relative;
+  cursor: pointer;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+  border-top: none;
+}
+
+.cell:nth-child(3n + 1) {
+  border-left: none;
+}
+
+.cell:nth-child(3n + 3) {
+  border-right: none;
+}
+
+.cell:last-child,
+.cell:nth-child(7),
+.cell:nth-child(8) {
+  border-bottom: none;
+}
+
+.cell.x,
+.cell.o {
+  cursor: not-allowed;
+}
+.cell.x::before,
+.cell.x::after {
+  background-color: #000;
+
+}
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+  background-color: lightgray;
+}
+
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+  content: "";
+  position: absolute;
+  width: calc(var(--option-size) * 0.15);
+  height: var(--option-size);
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.o):hover::before {
+  transform: rotate(45deg);
+}
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::after {
+  transform: rotate(-45deg);
+}
+.cell.o::before,
+.cell.o::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.cell.o::before {
+  width: var(--option-size);
+  height: var(--option-size);
+  background-color: #000;
+}
+.cell.o::after {
+  width: calc(var(--option-size) * 0.7);
+  height: calc(var(--option-size) * 0.7);
+  background-color: #fff;
+}
