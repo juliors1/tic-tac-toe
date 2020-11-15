@@ -1,52 +1,43 @@
-
-
 /*-------------------------------- Constants --------------------------------*/
 
-const winningCombos = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-];
-
+const cellEl = document.querySelectorAll("[data-cell]");
+const oClass = 'o'
+const xClass = 'x'
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-// Variables might include (board/turn/winner)
 
+let circleTurn
 /*------------------------ Cached Element References ------------------------*/
 
 // You might choose to put your game status here
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-// This is where you should put the event listener
-// for a mouse-click
+//Using for Each to loop through every cell and add an event click
+cellEl.forEach((cell) => {
+  cell.addEventListener("click", handleClick, { once: true });
+});
 
 /*-------------------------------- Functions --------------------------------*/
 
-// Some functions you might choose to use:
+// place mark
+// check  winner
+// check for tie
+// swap turns
+function handleClick(e) {
+const cell = e.target
+const currentClass = circleTurn ? oClass : xClass
+placeMark(cell, currentClass)
+swapTurns()
+}
+// Place marks
+function placeMark(cell, currentClass) {
+  cell.classList.add(currentClass)
+}
+//swapping turns
+function swapTurns() {
+  circleTurn = !circleTurn
+}
 
-// Initialization function:
-// Where you set your initial state, setting up
-// what the board will look like upon loading
 
-// On-Click function:
-// Set up what happens when one of the elements
-// is clicked
-
-
-// Check winner function:
-// Checks the current state of the board for
-// a winner and changes the state of the winner
-// variable if so
-
-
-// Render function:
-// Displays the current state of the board
-// on the page, updating the elements to reflect
-// either X or O depending on whose turn it is
