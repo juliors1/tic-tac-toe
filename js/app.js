@@ -64,7 +64,9 @@ function endGame(draw) {
   if (draw) {
     winningMessageTextElement.innerText = "Draw!";
   } else {
+
     winningMessageTextElement.innerText = `${circleTurn ? "O is the champ" : "X is the champ"}`;
+
   }
   winningMessageElement.classList.add("show");
 }
