@@ -11,6 +11,7 @@ const restartButton = document.getElementById("restartButton");
 const winningMessageTextElement = document.querySelector(
   "[data-winning-message-text]"
 );
+const restartBtn = document.getElementById("restartButton");
 const winningMessageElement = document.getElementById("winningMessage");
 const winningCombos = [
   [0, 1, 2],
@@ -26,10 +27,15 @@ const winningCombos = [
 // starts game
 init();
 
+restartBtn.addEventListener("click", init);
+
 function init() {
   circleTurn = false;
-  // Using for Each to loop through every cell and add an event click
+  // Using for Each to loop through every cell and add an event click and reseting board
   cellEl.forEach((cell) => {
+    cell.classList.remove(xClass);
+    cell.classList.remove(oClass);
+    cell.removeEventListener("click", handleClick);
     cell.addEventListener("click", handleClick, { once: true });
   });
   setBoardHoverClass();
@@ -51,6 +57,7 @@ function handleClick(e) {
     setBoardHoverClass();
   }
 }
+// display's the text for if it's a draw, X wins, or O Wins
 function endGame(draw) {
   if (draw) {
     winningMessageTextElement.innerText = "Draw!";
@@ -59,6 +66,7 @@ function endGame(draw) {
   }
   winningMessageElement.classList.add("show");
 }
+// Checks if it's a draw
 function isDraw() {
   return [...cellEl].every((cell) => {
     return cell.classList.contains(xClass) || cell.classList.contains(oClass);
@@ -90,4 +98,3 @@ function checkWin(currentClass) {
     });
   });
 }
-
