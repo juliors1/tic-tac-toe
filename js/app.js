@@ -7,17 +7,23 @@ const cellEl = document.querySelectorAll("[data-cell]");
 const board = document.getElementById("board");
 const oClass = "o";
 const xClass = "x";
+const restartButton = document.getElementById("restartButton");
+const winningMessageTextElement = document.querySelector(
+  "[data-winning-message-text]"
+);
+const winningMessageElement = document.getElementById("winningMessage");
 const winningCombos = [
-  [0,1,2],
-  [3,4,5],
-  [6,7,8],
-  [0,3,6],
-  [1,4,7],
-  [2,5,8],
-  [0,4,8],
-  [2,4,6]
-]
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 /*----------------------------- Event Listeners -----------------------------*/
+// starts game
 init();
 
 function init() {
@@ -27,18 +33,36 @@ function init() {
     cell.addEventListener("click", handleClick, { once: true });
   });
   setBoardHoverClass();
+  winningMessageElement.classList.remove("show");
 }
 /*-------------------------------- Functions --------------------------------*/
-
-// check  winner
-// check for tie
-
+// Decides who's turn it is
 function handleClick(e) {
   const cell = e.target;
   const currentClass = circleTurn ? oClass : xClass;
   placeMark(cell, currentClass);
-  swapTurns();
-  setBoardHoverClass();
+  //Winner Check!
+  if (checkWin(currentClass)) {
+    endGame(false);
+  } else if (isDraw()) {
+    endGame(true);
+  } else {
+    swapTurns();
+    setBoardHoverClass();
+  }
+}
+function endGame(draw) {
+  if (draw) {
+    winningMessageTextElement.innerText = "Draw!";
+  } else {
+    winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`;
+  }
+  winningMessageElement.classList.add("show");
+}
+function isDraw() {
+  return [...cellEl].every((cell) => {
+    return cell.classList.contains(xClass) || cell.classList.contains(oClass);
+  });
 }
 // Place marks
 function placeMark(cell, currentClass) {
@@ -58,3 +82,12 @@ function setBoardHoverClass() {
     board.classList.add(xClass);
   }
 }
+// checks winner
+function checkWin(currentClass) {
+  return winningCombos.some((combo) => {
+    return combo.every((index) => {
+      return cellEl[index].classList.contains(currentClass);
+    });
+  });
+}
+
