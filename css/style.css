@@ -27,7 +27,20 @@ body {
   margin: 0;
 }
 
+#title {
+  display:flex;
+  justify-content: center;
+  position: absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
+}
+h1 {
+  font-size:6.5rem;
+}
 .board {
+  margin-top:50px;
   width: 100vw;
   height: 100vh;
   display: grid;

@@ -25,6 +25,7 @@ const winningCombos = [
 ];
 /*----------------------------- Event Listeners -----------------------------*/
 // starts game
+
 init();
 
 restartBtn.addEventListener("click", init);
@@ -43,11 +44,12 @@ function init() {
 }
 /*-------------------------------- Functions --------------------------------*/
 // Decides who's turn it is
+
 function handleClick(e) {
   const cell = e.target;
   const currentClass = circleTurn ? oClass : xClass;
   placeMark(cell, currentClass);
-  //Winner Check!
+  //Winner Check! && End Gane
   if (checkWin(currentClass)) {
     endGame(false);
   } else if (isDraw()) {
@@ -62,16 +64,18 @@ function endGame(draw) {
   if (draw) {
     winningMessageTextElement.innerText = "Draw!";
   } else {
-    winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`;
+    winningMessageTextElement.innerText = `${circleTurn ? "O is the champ" : "X is the champ"}`;
   }
   winningMessageElement.classList.add("show");
 }
+
 // Checks if it's a draw
 function isDraw() {
   return [...cellEl].every((cell) => {
     return cell.classList.contains(xClass) || cell.classList.contains(oClass);
   });
 }
+
 // Place marks
 function placeMark(cell, currentClass) {
   cell.classList.add(currentClass);
@@ -95,6 +99,7 @@ function checkWin(currentClass) {
   return winningCombos.some((combo) => {
     return combo.every((index) => {
       return cellEl[index].classList.contains(currentClass);
+
     });
   });
 }
